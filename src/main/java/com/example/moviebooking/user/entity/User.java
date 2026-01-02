@@ -20,7 +20,7 @@ public class User {
     private Integer id;
 
     private  String name;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column(nullable = false)
@@ -34,6 +34,6 @@ public class User {
 
     private boolean active;
 
-    // getters & setters
+
 }
 

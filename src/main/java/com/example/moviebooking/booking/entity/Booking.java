@@ -22,7 +22,7 @@ public class Booking {
     private Integer userId;
     private Long showId;
 
-    private String seatNumber; // 🔥 REQUIRED for cancel
+    private String seatNumber; //  REQUIRED for cancel
 
     @Enumerated(EnumType.STRING)
     private SeatCategory seatCategory;

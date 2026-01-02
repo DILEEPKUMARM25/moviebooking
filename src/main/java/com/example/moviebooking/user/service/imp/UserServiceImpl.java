@@ -6,6 +6,7 @@ import com.example.moviebooking.user.dto.UserResponseDTO;
 import com.example.moviebooking.user.entity.User;
 import com.example.moviebooking.user.repository.UserRepository;
 import com.example.moviebooking.user.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -16,10 +17,15 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
 
     // ================= CREATE USER =================
     @Override
@@ -131,7 +137,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword()); // later encrypt
+        //user.setPassword(dto.getPassword()); // later encrypt
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setRole(dto.getRole());
         user.setPhoneNo(dto.getPhoneNo());
         user.setActive(dto.getActive());

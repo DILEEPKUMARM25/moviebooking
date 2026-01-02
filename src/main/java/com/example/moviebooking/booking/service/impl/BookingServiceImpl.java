@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new DataNotFoundException("Seat not found"));
 
         if (seat.isBooked()) {
-            throw new RuntimeException("Seat already booked");
+            throw new DataNotFoundException("Seat already booked");
         }
 
         //  OPTIMISTIC LOCK HERE

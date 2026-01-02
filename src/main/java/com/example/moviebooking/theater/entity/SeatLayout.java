@@ -21,7 +21,7 @@ public class SeatLayout {
      */
     @ElementCollection
     @CollectionTable(name = "screen_seats", joinColumns = @JoinColumn(name = "screen_id"))
-    @MapKeyEnumerated(EnumType.STRING)   // ⭐ VERY IMPORTANT
+    @MapKeyEnumerated(EnumType.STRING)   //  VERY IMPORTANT
     @Column(name = "seats")
     private Map<SeatCategory, Integer> seatsPerCategory;
 

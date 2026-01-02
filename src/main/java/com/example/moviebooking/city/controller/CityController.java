@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/admin/cities")
+@RequestMapping("/city")
 @RequiredArgsConstructor
 public class CityController {
 
@@ -43,7 +43,7 @@ public class CityController {
     }
 
     // FETCH ALL
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<CommonRespose> getAllCities() {
         return ResponseEntity.ok(new CommonRespose(false,"Get all city",cityService.getAllCities()));
     }
