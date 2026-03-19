@@ -49,14 +49,34 @@ public class UserServiceImpl implements UserService {
     }
 
     // ================= UPDATE USER =================
+//    @Override
+//    public UserResponseDTO updateUser(Integer id, UserRequestDTO dto) {
+//
+//        User user = userRepository.findById(id)
+//                .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
+//        user.setName(dto.getName());
+//        user.setEmail(dto.getEmail());
+//        user.setPassword(dto.getPassword());
+//        user.setRole(dto.getRole());
+//        user.setPhoneNo(dto.getPhoneNo());
+//        user.setActive(dto.getActive());
+//
+//        User updatedUser = userRepository.save(user);
+//        return mapToResponse(updatedUser);
+//    }
     @Override
     public UserResponseDTO updateUser(Integer id, UserRequestDTO dto) {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
+
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
+
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
         user.setRole(dto.getRole());
         user.setPhoneNo(dto.getPhoneNo());
         user.setActive(dto.getActive());
@@ -99,37 +119,66 @@ public class UserServiceImpl implements UserService {
     }
 
 
-        @Override
-        public UserResponseDTO patchUser(Integer id, UserRequestDTO dto) {
+//        @Override
+//        public UserResponseDTO patchUser(Integer id, UserRequestDTO dto) {
+//
+//            User user = userRepository.findById(id)
+//                    .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
+//
+//            if (dto.getEmail() != null) {
+//                user.setEmail(dto.getEmail());
+//            }
+//
+//            if (dto.getPassword() != null) {
+//                user.setPassword(dto.getPassword());
+//            }
+//
+//            if (dto.getRole() != null) {
+//                user.setRole(dto.getRole());
+//            }
+//
+//            if (dto.getPhoneNo() != null) {
+//                user.setPhoneNo(dto.getPhoneNo());
+//            }
+//
+//            if (dto.getActive() != null) {
+//                user.setActive(dto.getActive());
+//            }
+//
+//            User updatedUser = userRepository.save(user);
+//            return mapToResponse(updatedUser);
+//        }
 
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
+    @Override
+    public UserResponseDTO patchUser(Integer id, UserRequestDTO dto) {
 
-            if (dto.getEmail() != null) {
-                user.setEmail(dto.getEmail());
-            }
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("User not found with id: " + id));
 
-            if (dto.getPassword() != null) {
-                user.setPassword(dto.getPassword());
-            }
-
-            if (dto.getRole() != null) {
-                user.setRole(dto.getRole());
-            }
-
-            if (dto.getPhoneNo() != null) {
-                user.setPhoneNo(dto.getPhoneNo());
-            }
-
-            if (dto.getActive() != null) {
-                user.setActive(dto.getActive());
-            }
-
-            User updatedUser = userRepository.save(user);
-            return mapToResponse(updatedUser);
+        if (dto.getEmail() != null) {
+            user.setEmail(dto.getEmail());
         }
 
+        if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+            // ✅ Always encode
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
 
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        }
+
+        if (dto.getPhoneNo() != null) {
+            user.setPhoneNo(dto.getPhoneNo());
+        }
+
+        if (dto.getActive() != null) {
+            user.setActive(dto.getActive());
+        }
+
+        User updatedUser = userRepository.save(user);
+        return mapToResponse(updatedUser);
+    }
 
     // ================= MAPPING METHODS =================
 

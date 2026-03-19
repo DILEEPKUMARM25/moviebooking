@@ -4,6 +4,8 @@ import com.example.moviebooking.booking.entity.Booking;
 import com.example.moviebooking.common.exception.DataNotFoundException;
 import com.example.moviebooking.theater.enums.SeatCategory;
 
+import java.util.List;
+
 public interface BookingService {
 
     Booking confirmBooking(
@@ -14,5 +16,8 @@ public interface BookingService {
     ) throws DataNotFoundException;
 
     Booking cancelBooking(Long bookingId) throws DataNotFoundException;
+
+    List<Booking> getBookingsByUserId(Long userId);
+
 }
 

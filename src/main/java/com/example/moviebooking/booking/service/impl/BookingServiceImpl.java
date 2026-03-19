@@ -14,6 +14,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class BookingServiceImpl implements BookingService {
@@ -94,6 +96,12 @@ public class BookingServiceImpl implements BookingService {
 
         return cancelledBooking;
     }
+
+    @Override
+    public List<Booking> getBookingsByUserId(Long userId) {
+        return bookingRepository.findByUserId(userId);
+    }
+
 
 }
 

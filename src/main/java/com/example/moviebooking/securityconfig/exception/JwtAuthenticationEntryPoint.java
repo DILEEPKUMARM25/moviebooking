@@ -28,6 +28,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         body.put("message", authException.getMessage());
         body.put("path", request.getRequestURI());
 
-        new ObjectMapper().writeValue(response.getOutputStream(), body);
+
     }
 }

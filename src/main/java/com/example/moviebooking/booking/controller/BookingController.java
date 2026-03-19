@@ -33,4 +33,12 @@ public class BookingController {
         return ResponseEntity.ok(
                 new CommonRespose(false,"Booking update",bookingService.cancelBooking(bookingId)));
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<CommonRespose> getBookingsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(
+                new CommonRespose(false, "Customer bookings", bookingService.getBookingsByUserId(userId))
+        );
+    }
+
 }

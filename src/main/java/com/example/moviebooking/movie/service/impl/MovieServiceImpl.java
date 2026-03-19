@@ -98,10 +98,12 @@ public class MovieServiceImpl implements MovieService {
                 movie.getId(),
                 movie.getTitle(),
                 movie.getDescription(),
+                String.valueOf(movie.getLanguage()),
+                String.valueOf(movie.getStatus()),
                 movie.getDuration(),
-                movie.getLanguage(),
-                movie.getStatus()
+                "/movies/poster/" + movie.getId()
         );
+
     }
 }
 

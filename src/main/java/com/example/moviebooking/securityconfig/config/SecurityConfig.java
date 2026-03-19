@@ -54,10 +54,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
                         // ================= USER MANAGEMENT =================
-                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/users/{id}").hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.DELETE, "/users/{id}").hasAnyRole("ADMIN", "CUSTOMER")
+
 
                         // ================= CITY (ADMIN ONLY) =================
-                        .requestMatchers("/city/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/city/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/city/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/city/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/city/**").hasRole("ADMIN")
+
+
 
                         // ================= THEATRE =================
                         .requestMatchers(HttpMethod.POST, "/theatres/**").hasRole("THEATRE")
@@ -71,10 +79,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole("THEATRE")
                         .requestMatchers(HttpMethod.DELETE, "/movies/**").hasRole("THEATRE")
                         .requestMatchers(HttpMethod.GET, "/movies/**")
-                        .hasAnyRole("ADMIN", "CUSTOMER","THEATRE")
+                        .permitAll()
 
                         // ================= SHOWS =================
-                        .requestMatchers(HttpMethod.POST, "/api/shows/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/shows", "/shows").hasRole("ADMIN")
+
+//                        .requestMatchers(HttpMethod.POST, "/api/shows/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/shows/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/shows/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/shows/**")
@@ -85,6 +95,13 @@ public class SecurityConfig {
 
                         // ================= PAYMENTS =================
                         .requestMatchers("/payments/**").hasRole("CUSTOMER")
+
+                        // ================= SHOW SEATS =================
+                        .requestMatchers(HttpMethod.POST, "/shows/**")
+                        .hasRole("THEATRE")
+
+                        .requestMatchers(HttpMethod.GET, "/shows/**")
+                        .hasAnyRole("ADMIN", "CUSTOMER", "THEATRE")
 
                         // ================= ANY OTHER =================
                         .anyRequest().authenticated()
