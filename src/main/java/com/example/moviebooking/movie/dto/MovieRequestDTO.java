@@ -15,5 +15,6 @@ public class MovieRequestDTO {
     private Language language;
     private MovieStatus status;
     private MultipartFile poster;
+    private String locationId;
 }
 

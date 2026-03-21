@@ -20,19 +20,23 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieResponseDTO create(MovieRequestDTO dto) {
+
         Movie movie = toEntity(dto);
-        if(dto.getPoster()!=null && !dto.getPoster().isEmpty()){
+
+        if (dto.getPoster() != null && !dto.getPoster().isEmpty()) {
             try {
                 movie.setPoster(dto.getPoster().getBytes());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+
         return toResponse(movieRepository.save(movie));
     }
 
     @Override
-    public MovieResponseDTO update(String id, MovieRequestDTO dto)  {
+    public MovieResponseDTO update(String id, MovieRequestDTO dto) {
+
         Movie movie = movieRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Movie not found"));
 
@@ -41,11 +45,19 @@ public class MovieServiceImpl implements MovieService {
         movie.setDuration(dto.getDuration());
         movie.setLanguage(dto.getLanguage());
         movie.setStatus(dto.getStatus());
-        try {
-            movie.setPoster(dto.getPoster().getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+        // ✅ NEW FIELD
+        movie.setLocationId(dto.getLocationId());
+
+        // ✅ SAFE POSTER UPDATE
+        if (dto.getPoster() != null && !dto.getPoster().isEmpty()) {
+            try {
+                movie.setPoster(dto.getPoster().getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
         return toResponse(movieRepository.save(movie));
     }
 
@@ -55,7 +67,8 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieResponseDTO getById(String id)  {
+    public MovieResponseDTO getById(String id) {
+
         return movieRepository.findById(id)
                 .map(this::toResponse)
                 .orElseThrow(() -> new DataNotFoundException("Movie not found"));
@@ -63,6 +76,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public List<MovieResponseDTO> getAll() {
+
         return movieRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -70,7 +84,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public byte[] getPoster(String movieId)  {
+    public byte[] getPoster(String movieId) {
 
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new DataNotFoundException("Movie not found"));
@@ -82,18 +96,28 @@ public class MovieServiceImpl implements MovieService {
         return movie.getPoster();
     }
 
+    // ============================
+    // 🔁 MAPPERS
+    // ============================
 
     private Movie toEntity(MovieRequestDTO dto) {
+
         Movie movie = new Movie();
+
         movie.setTitle(dto.getTitle());
         movie.setDescription(dto.getDescription());
         movie.setDuration(dto.getDuration());
         movie.setLanguage(dto.getLanguage());
         movie.setStatus(dto.getStatus());
+
+        // ✅ NEW FIELD
+        movie.setLocationId(dto.getLocationId());
+
         return movie;
     }
 
     private MovieResponseDTO toResponse(Movie movie) {
+
         return new MovieResponseDTO(
                 movie.getId(),
                 movie.getTitle(),
@@ -101,9 +125,8 @@ public class MovieServiceImpl implements MovieService {
                 String.valueOf(movie.getLanguage()),
                 String.valueOf(movie.getStatus()),
                 movie.getDuration(),
-                "/movies/poster/" + movie.getId()
+                "/movies/poster/" + movie.getId(),
+                movie.getLocationId() // ✅ NEW FIELD
         );
-
     }
 }
-

@@ -32,6 +32,7 @@ public class MovieResponseDTO {
     private String status;
     private Double duration;
     private String posterUrl;
+    private String locationId;
 }
 
 

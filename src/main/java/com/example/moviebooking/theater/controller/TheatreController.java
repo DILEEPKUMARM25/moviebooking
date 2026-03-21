@@ -44,12 +44,7 @@ public class TheatreController {
     }
 
     // ADMIN APPROVE THEATRE
-    @PatchMapping("/{id}/approve")
-    public ResponseEntity<CommonRespose> approveTheatre(@PathVariable Long id) {
-        theatreService.approveTheatre(id);
 
-        return ResponseEntity.ok(new CommonRespose(false,"Theatre Approval successfully",null));
 
-    }
 }
 

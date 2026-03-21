@@ -25,16 +25,18 @@ public class Movie {
     private String title;
     private String description;
 
-    private Double duration; // minutes
+    private Double duration;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Language language;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MovieStatus status;
 
     private byte[] poster;
 
-    // getters & setters
+    // ✅ NEW FIELD
+    private String locationId;
 }
-
